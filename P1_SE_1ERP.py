@@ -1,13 +1,13 @@
-class CityDirectedGraph:
+class CityDirectedGraph: #representa un grafo dirigido de ciudades. Dentro de esta clase, se inicializa un diccionario vacío self.graph para almacenar las conexiones entre las ciudades.
     def __init__(self):
         self.graph = {}
 
-    def add_connection(self, from_city, to_city):
+    def add_connection(self, from_city, to_city): #permite agregar una conexión dirigida desde una ciudad de origen (from_city) hacia una ciudad de destino (to_city).
         if from_city not in self.graph:
             self.graph[from_city] = set()
         self.graph[from_city].add(to_city)
 
-    def is_connected(self, start_city, end_city):
+    def is_connected(self, start_city, end_city): #Este método verifica si hay un camino entre dos ciudades específicas en el grafo dirigido.
         visited = set()
         stack = [start_city]
         visited.add(start_city)
@@ -25,14 +25,14 @@ class CityDirectedGraph:
 
         return False
 
-# Crear un mapa de ciudades de ejemplo
+# Ciudades conectadas
 city_map = CityDirectedGraph()
 city_map.add_connection("New York", "Boston")
 city_map.add_connection("Boston", "Chicago")
 city_map.add_connection("Chicago", "Los Angeles")
 city_map.add_connection("Los Angeles", "San Francisco")
 
-# Definir las ciudades de inicio y fin
+# Ciudades definidas de inicio a fin
 start_city = "New York"
 end_city = "San Francisco"
 
