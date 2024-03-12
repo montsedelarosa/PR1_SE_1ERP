@@ -1,42 +1,42 @@
-from collections import defaultdict, deque
-
-class CityMap: #Representa el mapa de ciudades, la clase utiliza un diccionario defaultdict (self.graph) para almacenar las conexiones entre las ciudades.
+class CityDirectedGraph:
     def __init__(self):
-        self.graph = defaultdict(list)
+        self.graph = {}
 
-    def add_connection(self, city1, city2): #Permite agregar una conexión entre dos ciudades al mapa. Agrega la conexión entre city1 y city2 tanto desde city1 como desde city2 en el diccionario self.graph.
-        self.graph[city1].append(city2)
-        self.graph[city2].append(city1)
+    def add_connection(self, from_city, to_city):
+        if from_city not in self.graph:
+            self.graph[from_city] = set()
+        self.graph[from_city].add(to_city)
 
-    def is_connected(self, start_city, end_city): #Utiliza el algoritmo de búsqueda en anchura (BFS) para verificar si hay un camino entre dos ciudades dadas. 
+    def is_connected(self, start_city, end_city):
         visited = set()
-        queue = deque()
-
-        queue.append(start_city)
+        stack = [start_city]
         visited.add(start_city)
 
-        while queue: #Explora las ciudades vecinas de la ciudad actual (sacada de la cola queue).
-            current_city = queue.popleft()
+        while stack:
+            current_city = stack.pop()
             if current_city == end_city:
                 return True
 
-            for neighbor_city in self.graph[current_city]:
+            for neighbor_city in self.graph.get(current_city, []):
                 if neighbor_city not in visited:
-                    queue.append(neighbor_city)
-                    visited.add(neighbor_city)
+                    stack.append(neighbor_city)
+                    a=visited.add(neighbor_city)
+                    print("a")
 
         return False
 
 # Crear un mapa de ciudades de ejemplo
-city_map = CityMap()
+city_map = CityDirectedGraph()
 city_map.add_connection("New York", "Boston")
 city_map.add_connection("Boston", "Chicago")
 city_map.add_connection("Chicago", "Los Angeles")
 city_map.add_connection("Los Angeles", "San Francisco")
 
-start_city = "San Francisco"
-end_city = "Los Angeles"
+# Definir las ciudades de inicio y fin
+start_city = "New York"
+end_city = "San Francisco"
 
+# Verificar si hay un camino entre las ciudades de inicio y fin
 if city_map.is_connected(start_city, end_city):
     print(f"Hay un camino entre {start_city} y {end_city}.")
 else:
